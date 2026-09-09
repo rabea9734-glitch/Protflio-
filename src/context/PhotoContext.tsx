@@ -46,9 +46,7 @@ export const PhotoProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     };
 
     const checkDefaultFiles = async () => {
-      if (await testImage('/image.png')) {
-        setPhotoUrl('/image.png');
-      } else if (await testImage('/farahat.jpg')) {
+      if (await testImage('/farahat.jpg')) {
         setPhotoUrl('/farahat.jpg');
       } else if (await testImage('/images/farahat_profile.jpg')) {
         setPhotoUrl('/images/farahat_profile.jpg');

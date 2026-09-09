@@ -20,7 +20,8 @@ import {
   Target,
   Filter,
   Layers,
-  Download
+  Download,
+  Github
 } from 'lucide-react';
 import { Project } from '../types/portfolio';
 import { playTelemetryBeep } from '../utils/sound';
@@ -147,19 +148,255 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({ project, onClose
           <div className="overflow-y-auto px-6 sm:px-8 py-6 space-y-8 divide-y divide-white/[0.06]">
             {/* Title & Headline summary */}
             <div className="space-y-4">
-              {/* Optional Dashboard Preview Image */}
+              {/* Dashboard Preview Image with Custom Frame for BI-01 */}
               {project.image && (
-                <div className="relative aspect-[16/9] w-full rounded-xl overflow-hidden border border-white/10 bg-slate-950 shadow-lg">
-                  <img
-                    src={project.image}
-                    alt={project.title}
-                    className="w-full h-full object-cover object-top"
-                    referrerPolicy="no-referrer"
-                    onError={(e) => {
-                      (e.target as HTMLImageElement).style.display = 'none';
-                    }}
-                  />
-                </div>
+                (project.id === 'project-powerbi-01' || project.number === 'BI-01') ? (
+                  <div className="relative rounded-2xl p-2.5 sm:p-3 bg-gradient-to-b from-[#0f172a] via-[#090f1d] to-[#050811] border-2 border-emerald-500/40 shadow-[0_16px_45px_rgba(16,185,129,0.2),0_0_30px_rgba(59,130,246,0.15)] space-y-2.5">
+                    {/* Console Header */}
+                    <div className="flex items-center justify-between px-1 text-xs font-mono">
+                      <div className="flex items-center space-x-2 rtl:space-x-reverse">
+                        <span className="w-3 h-3 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(16,185,129,0.9)]" title="Sales: $2.38M // Net Profit: $2.29M" />
+                        <span className="w-3 h-3 rounded-full bg-rose-400 shadow-[0_0_8px_rgba(251,113,133,0.9)]" title="Total Cost: $84.1K" />
+                        <span className="w-3 h-3 rounded-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.9)]" title="Avg Sales: $475.72" />
+                        <span className="w-3 h-3 rounded-full bg-purple-500 shadow-[0_0_8px_rgba(168,85,247,0.9)]" title="VIP Customer Segment" />
+                        <span className="text-slate-300 font-bold ml-2 rtl:ml-0 rtl:mr-2 tracking-wider hidden sm:inline">
+                          EXECUTIVE SALES & PROFITABILITY CONSOLE // POWER BI
+                        </span>
+                      </div>
+                      <div className="flex items-center space-x-2 rtl:space-x-reverse bg-emerald-950/90 border border-emerald-500/50 px-3 py-1 rounded-full text-emerald-300 font-semibold shadow-sm">
+                        <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                        <span className="text-xs font-bold">96.5% NET MARGIN</span>
+                      </div>
+                    </div>
+
+                    {/* Image Surface with Corner Accents */}
+                    <div className="relative aspect-[16/9] w-full rounded-xl overflow-hidden border border-white/20 bg-slate-900 shadow-xl group">
+                      <img
+                        src={project.image || "/images/powerbi_saas_sales_dashboard.png"}
+                        alt={project.title}
+                        className="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-500"
+                        referrerPolicy="no-referrer"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).style.display = 'none';
+                        }}
+                      />
+                      <div className="absolute top-3 left-3 rtl:left-auto rtl:right-3 w-4 h-4 border-t-2 border-l-2 rtl:border-l-0 rtl:border-r-2 border-emerald-400 pointer-events-none opacity-80" />
+                      <div className="absolute bottom-3 right-3 rtl:right-auto rtl:left-3 w-4 h-4 border-b-2 border-r-2 rtl:border-r-0 rtl:border-l-2 border-blue-400 pointer-events-none opacity-80" />
+                      
+                      <div className="absolute bottom-3 inset-x-3 flex items-center justify-between px-3 py-1.5 rounded-lg bg-slate-950/85 backdrop-blur-md border border-white/10 text-xs font-mono text-slate-300 pointer-events-none">
+                        <span className="text-emerald-300 font-semibold">Star Schema Model // Fact_Sales ↔ Dim_Product, Dim_Customer, Dim_Date</span>
+                        <span className="text-slate-400">$2.38M Commercial Revenue</span>
+                      </div>
+                    </div>
+                  </div>
+                ) : (project.id === 'project-powerbi-02' || project.number === 'BI-02') ? (
+                  <div className="relative rounded-2xl p-2.5 sm:p-3 bg-gradient-to-b from-[#0c1929] via-[#081220] to-[#040912] border-2 border-cyan-500/40 shadow-[0_16px_45px_rgba(6,182,212,0.2),0_0_30px_rgba(59,130,246,0.15)] space-y-2.5">
+                    {/* Console Header */}
+                    <div className="flex items-center justify-between px-1 text-xs font-mono">
+                      <div className="flex items-center space-x-2 rtl:space-x-reverse">
+                        <span className="w-3 h-3 rounded-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.9)]" title="Total Sales: $780 ($400 in 2024 / $380 in 2025)" />
+                        <span className="w-3 h-3 rounded-full bg-cyan-400 shadow-[0_0_8px_rgba(6,182,212,0.9)]" title="Top Customers: Mary ($350), Jossef ($250)" />
+                        <span className="w-3 h-3 rounded-full bg-teal-400 shadow-[0_0_8px_rgba(45,212,191,0.9)]" title="50% Delivered / 50% Shipped" />
+                        <span className="w-3 h-3 rounded-full bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.9)]" title="SQL UNION ALL & LEFT JOIN Pipeline" />
+                        <span className="text-slate-300 font-bold ml-2 rtl:ml-0 rtl:mr-2 tracking-wider hidden sm:inline">
+                          E-COMMERCE & SQL PIPELINE CONSOLE // POWER BI
+                        </span>
+                      </div>
+                      <div className="flex items-center space-x-2 rtl:space-x-reverse bg-cyan-950/90 border border-cyan-500/50 px-3 py-1 rounded-full text-cyan-300 font-semibold shadow-sm">
+                        <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
+                        <span className="text-xs font-bold">20 ORDERS • $780</span>
+                      </div>
+                    </div>
+
+                    {/* Image Surface with Corner Accents */}
+                    <div className="relative aspect-[16/9] w-full rounded-xl overflow-hidden border border-white/20 bg-slate-900 shadow-xl group">
+                      <img
+                        src={project.image || "/images/powerbi_ecommerce_sql_dashboard.png"}
+                        alt={project.title}
+                        className="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-500"
+                        referrerPolicy="no-referrer"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).style.display = 'none';
+                        }}
+                      />
+                      <div className="absolute top-3 left-3 rtl:left-auto rtl:right-3 w-4 h-4 border-t-2 border-l-2 rtl:border-l-0 rtl:border-r-2 border-cyan-400 pointer-events-none opacity-80" />
+                      <div className="absolute bottom-3 right-3 rtl:right-auto rtl:left-3 w-4 h-4 border-b-2 border-r-2 rtl:border-r-0 rtl:border-l-2 border-blue-400 pointer-events-none opacity-80" />
+                      
+                      <div className="absolute bottom-3 inset-x-3 flex items-center justify-between px-3 py-1.5 rounded-lg bg-slate-950/85 backdrop-blur-md border border-white/10 text-xs font-mono text-slate-300 pointer-events-none">
+                        <span className="text-cyan-300 font-semibold">SQL ETL Pipeline // UNION ALL & LEFT JOIN Inactive Buyer Analysis</span>
+                        <span className="text-slate-400">50% Shipped / 50% Delivered</span>
+                      </div>
+                    </div>
+                  </div>
+                ) : (project.id === 'project-powerbi-03' || project.number === 'BI-03') ? (
+                  <div className="relative rounded-2xl p-2.5 sm:p-3 bg-gradient-to-b from-[#102416] via-[#0b1810] to-[#040a06] border-2 border-emerald-500/40 shadow-[0_16px_45px_rgba(16,185,129,0.2),0_0_30px_rgba(245,158,11,0.15)] space-y-2.5">
+                    {/* Console Header */}
+                    <div className="flex items-center justify-between px-1 text-xs font-mono">
+                      <div className="flex items-center space-x-2 rtl:space-x-reverse">
+                        <span className="w-3 h-3 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(16,185,129,0.9)]" title="Email: $19.7K Profit // 150.80 ROAS" />
+                        <span className="w-3 h-3 rounded-full bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.9)]" title="Total Profit: $40.75K // Launches by Channel" />
+                        <span className="w-3 h-3 rounded-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.9)]" title="Spend: 6.74M Top Segment // 47M Impressions (45+)" />
+                        <span className="w-3 h-3 rounded-full bg-purple-500 shadow-[0_0_8px_rgba(168,85,247,0.9)]" title="Blended ROI: 38.67x // CTR: 0.04" />
+                        <span className="text-slate-300 font-bold ml-2 rtl:ml-0 rtl:mr-2 tracking-wider hidden sm:inline">
+                          DIGITAL MARKETING ANALYTICS // POWER BI
+                        </span>
+                      </div>
+                      <div className="flex items-center space-x-2 rtl:space-x-reverse bg-emerald-950/90 border border-emerald-500/50 px-3 py-1 rounded-full text-emerald-300 font-semibold shadow-sm">
+                        <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
+                        <span className="text-xs font-bold">ROAS 39.67 • $40.75K PROFIT</span>
+                      </div>
+                    </div>
+
+                    {/* Image Surface with Corner Accents */}
+                    <div className="relative aspect-[16/9] w-full rounded-xl overflow-hidden border border-white/20 bg-slate-900 shadow-xl group">
+                      <img
+                        src={project.image || "/images/powerbi_digital_marketing_dashboard.png"}
+                        alt={project.title}
+                        className="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-500"
+                        referrerPolicy="no-referrer"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).style.display = 'none';
+                        }}
+                      />
+                      <div className="absolute top-3 left-3 rtl:left-auto rtl:right-3 w-4 h-4 border-t-2 border-l-2 rtl:border-l-0 rtl:border-r-2 border-emerald-400 pointer-events-none opacity-80" />
+                      <div className="absolute bottom-3 right-3 rtl:right-auto rtl:left-3 w-4 h-4 border-b-2 border-r-2 rtl:border-r-0 rtl:border-l-2 border-amber-400 pointer-events-none opacity-80" />
+                      
+                      <div className="absolute bottom-3 inset-x-3 flex items-center justify-between px-3 py-1.5 rounded-lg bg-slate-950/85 backdrop-blur-md border border-white/10 text-xs font-mono text-slate-300 pointer-events-none">
+                        <span className="text-emerald-300 font-semibold">Email ROAS: 150.80x • Lead Attribution Pipeline</span>
+                        <span className="text-amber-300 font-medium">ROI: 38.67x • CTR: 0.04</span>
+                      </div>
+                    </div>
+                  </div>
+                ) : (project.id === 'project-powerbi-04' || project.number === 'BI-04') ? (
+                  <div className="relative rounded-2xl p-2.5 sm:p-3 bg-gradient-to-b from-[#1c0e30] via-[#120920] to-[#08040f] border-2 border-purple-500/40 shadow-[0_16px_45px_rgba(168,85,247,0.2),0_0_30px_rgba(236,72,153,0.15)] space-y-2.5">
+                    {/* Console Header */}
+                    <div className="flex items-center justify-between px-1 text-xs font-mono">
+                      <div className="flex items-center space-x-2 rtl:space-x-reverse">
+                        <span className="w-3 h-3 rounded-full bg-purple-500 shadow-[0_0_8px_rgba(168,85,247,0.9)]" title="90bn Total Box Office // 228 Movies" />
+                        <span className="w-3 h-3 rounded-full bg-cyan-400 shadow-[0_0_8px_rgba(6,182,212,0.9)]" title="6-Month Moving Average DAX Trend" />
+                        <span className="w-3 h-3 rounded-full bg-pink-500 shadow-[0_0_8px_rgba(236,72,153,0.9)]" title="23bn Production Budget // 3.91x ROI" />
+                        <span className="w-3 h-3 rounded-full bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.9)]" title="19.37% YoY% Movies Growth" />
+                        <span className="text-slate-300 font-bold ml-2 rtl:ml-0 rtl:mr-2 tracking-wider hidden sm:inline">
+                          CINEMA INDUSTRY & TIME INTELLIGENCE // POWER BI
+                        </span>
+                      </div>
+                      <div className="flex items-center space-x-2 rtl:space-x-reverse bg-purple-950/90 border border-purple-500/50 px-3 py-1 rounded-full text-purple-300 font-semibold shadow-sm">
+                        <span className="w-2 h-2 rounded-full bg-purple-400 animate-pulse" />
+                        <span className="text-xs font-bold">228 MOVIES • $90BN</span>
+                      </div>
+                    </div>
+
+                    {/* Image Surface with Corner Accents */}
+                    <div className="relative aspect-[16/9] w-full rounded-xl overflow-hidden border border-white/20 bg-slate-900 shadow-xl group">
+                      <img
+                        src={project.image || "/images/powerbi_cinema_industry_dashboard.png"}
+                        alt={project.title}
+                        className="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-500"
+                        referrerPolicy="no-referrer"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).style.display = 'none';
+                        }}
+                      />
+                      <div className="absolute top-3 left-3 rtl:left-auto rtl:right-3 w-4 h-4 border-t-2 border-l-2 rtl:border-l-0 rtl:border-r-2 border-purple-400 pointer-events-none opacity-80" />
+                      <div className="absolute bottom-3 right-3 rtl:right-auto rtl:left-3 w-4 h-4 border-b-2 border-r-2 rtl:border-r-0 rtl:border-l-2 border-pink-400 pointer-events-none opacity-80" />
+                      
+                      <div className="absolute bottom-3 inset-x-3 flex items-center justify-between px-3 py-1.5 rounded-lg bg-slate-950/85 backdrop-blur-md border border-white/10 text-xs font-mono text-slate-300 pointer-events-none">
+                        <span className="text-purple-300 font-semibold">6-Month Moving Average DAX • 3.91x Return on Budget</span>
+                        <span className="text-pink-300 font-medium">YoY Movie Growth: +19.37%</span>
+                      </div>
+                    </div>
+                  </div>
+                ) : (project.id === 'project-powerbi-05' || project.number === 'BI-05') ? (
+                  <div className="relative rounded-2xl p-2.5 sm:p-3 bg-gradient-to-b from-[#181a20] via-[#101216] to-[#08090b] border-2 border-slate-400/40 shadow-[0_16px_45px_rgba(255,255,255,0.12),0_0_30px_rgba(6,182,212,0.18)] space-y-2.5">
+                    {/* Console Header */}
+                    <div className="flex items-center justify-between px-1 text-xs font-mono">
+                      <div className="flex items-center space-x-2 rtl:space-x-reverse">
+                        <span className="w-3 h-3 rounded-full bg-white shadow-[0_0_8px_rgba(255,255,255,0.9)]" title="17K Completed Rides (61.44%)" />
+                        <span className="w-3 h-3 rounded-full bg-cyan-400 shadow-[0_0_8px_rgba(6,182,212,0.9)]" title="Go Sedan: 27K Requests Segment" />
+                        <span className="w-3 h-3 rounded-full bg-blue-600 shadow-[0_0_8px_rgba(37,99,235,0.9)]" title="10K Lost Rides Deficit (38.56%)" />
+                        <span className="w-3 h-3 rounded-full bg-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.9)]" title="2K Cancelled Rides" />
+                        <span className="text-slate-200 font-bold ml-2 rtl:ml-0 rtl:mr-2 tracking-wider hidden sm:inline">
+                          UBER FLEET // DEMAND FULFILLMENT & GAP ANALYTICS
+                        </span>
+                      </div>
+                      <div className="flex items-center space-x-2 rtl:space-x-reverse bg-black/90 border border-white/40 px-3 py-1 rounded-full text-slate-100 font-semibold shadow-sm">
+                        <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
+                        <span className="text-xs font-bold">17K COMPLETED • 27K TOTAL</span>
+                      </div>
+                    </div>
+
+                    {/* Image Surface with Corner Accents */}
+                    <div className="relative aspect-[16/9] w-full rounded-xl overflow-hidden border border-white/20 bg-slate-900 shadow-xl group">
+                      <img
+                        src={project.image || "/images/powerbi_uber_analytics_dashboard.png"}
+                        alt={project.title}
+                        className="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-500"
+                        referrerPolicy="no-referrer"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).style.display = 'none';
+                        }}
+                      />
+                      <div className="absolute top-3 left-3 rtl:left-auto rtl:right-3 w-4 h-4 border-t-2 border-l-2 rtl:border-l-0 rtl:border-r-2 border-white pointer-events-none opacity-80" />
+                      <div className="absolute bottom-3 right-3 rtl:right-auto rtl:left-3 w-4 h-4 border-b-2 border-r-2 rtl:border-r-0 rtl:border-l-2 border-cyan-400 pointer-events-none opacity-80" />
+                      
+                      <div className="absolute bottom-3 inset-x-3 flex items-center justify-between px-3 py-1.5 rounded-lg bg-black/90 backdrop-blur-md border border-white/20 text-xs font-mono text-slate-300 pointer-events-none">
+                        <span className="text-cyan-300 font-semibold">61.44% Completed Rides (17K) • 38.56% Lost Demand (10K)</span>
+                        <span className="text-slate-100 font-medium">Go Sedan Fleet Segment Filtered</span>
+                      </div>
+                    </div>
+                  </div>
+                ) : (project.id === 'project-powerbi-06' || project.number === 'BI-06') ? (
+                  <div className="relative rounded-2xl p-2.5 sm:p-3 bg-gradient-to-b from-[#0e172a] via-[#09101f] to-[#050811] border-2 border-sky-500/40 shadow-[0_16px_45px_rgba(14,165,233,0.2),0_0_30px_rgba(249,115,22,0.14)] space-y-2.5">
+                    {/* Console Header */}
+                    <div className="flex items-center justify-between px-1 text-xs font-mono">
+                      <div className="flex items-center space-x-2 rtl:space-x-reverse">
+                        <span className="w-3 h-3 rounded-full bg-cyan-400 shadow-[0_0_8px_rgba(6,182,212,0.9)]" title="Completed: 560 Requests (49%)" />
+                        <span className="w-3 h-3 rounded-full bg-blue-600 shadow-[0_0_8px_rgba(37,99,235,0.9)]" title="Pending: 352 Requests (31%)" />
+                        <span className="w-3 h-3 rounded-full bg-orange-500 shadow-[0_0_8px_rgba(249,115,22,0.9)]" title="Canceled: 240 Requests (21%)" />
+                        <span className="w-3 h-3 rounded-full bg-sky-300 shadow-[0_0_8px_rgba(125,211,252,0.9)]" title="562.10K SAR Paid Amount" />
+                        <span className="text-slate-200 font-bold ml-2 rtl:ml-0 rtl:mr-2 tracking-wider hidden sm:inline">
+                          SERVICE REQUEST MANAGEMENT & REGIONAL SLA // POWER BI
+                        </span>
+                      </div>
+                      <div className="flex items-center space-x-2 rtl:space-x-reverse bg-sky-950/90 border border-sky-500/50 px-3 py-1 rounded-full text-sky-300 font-semibold shadow-sm">
+                        <span className="w-2 h-2 rounded-full bg-sky-400 animate-pulse" />
+                        <span className="text-xs font-bold">1.2K REQUESTS • 49% COMPLETED</span>
+                      </div>
+                    </div>
+
+                    {/* Image Surface with Corner Accents */}
+                    <div className="relative aspect-[16/9] w-full rounded-xl overflow-hidden border border-white/20 bg-slate-900 shadow-xl group">
+                      <img
+                        src={project.image || "/images/powerbi_service_request_dashboard.png"}
+                        alt={project.title}
+                        className="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-500"
+                        referrerPolicy="no-referrer"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).style.display = 'none';
+                        }}
+                      />
+                      <div className="absolute top-3 left-3 rtl:left-auto rtl:right-3 w-4 h-4 border-t-2 border-l-2 rtl:border-l-0 rtl:border-r-2 border-cyan-400 pointer-events-none opacity-80" />
+                      <div className="absolute bottom-3 right-3 rtl:right-auto rtl:left-3 w-4 h-4 border-b-2 border-r-2 rtl:border-r-0 rtl:border-l-2 border-orange-400 pointer-events-none opacity-80" />
+                      
+                      <div className="absolute bottom-3 inset-x-3 flex items-center justify-between px-3 py-1.5 rounded-lg bg-slate-950/90 backdrop-blur-md border border-white/10 text-xs font-mono text-slate-300 pointer-events-none">
+                        <span className="text-cyan-300 font-semibold">Completed: 49% (560) • Pending: 31% (352) • Canceled: 21% (240)</span>
+                        <span className="text-sky-300 font-medium">Riyadh Top Paid: 130.67K SAR • Total: 562.10K SAR</span>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="relative aspect-[16/9] w-full rounded-xl overflow-hidden border border-white/10 bg-slate-950 shadow-lg">
+                    <img
+                      src={project.image}
+                      alt={project.title}
+                      className="w-full h-full object-cover object-top"
+                      referrerPolicy="no-referrer"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).style.display = 'none';
+                      }}
+                    />
+                  </div>
+                )
               )}
 
               <div className="space-y-2">
@@ -182,6 +419,19 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({ project, onClose
                     <Download className="w-4 h-4 text-cyan-400" />
                     <span>Download Image</span>
                   </button>
+                )}
+
+                {project.links && project.links.github && (
+                  <a
+                    href={project.links.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center space-x-2 rtl:space-x-reverse px-4 py-2 rounded-xl bg-slate-900/90 border border-slate-700/80 text-slate-200 hover:text-white hover:bg-slate-800 font-mono text-xs font-semibold transition-all shadow-sm"
+                  >
+                    <Github className="w-4 h-4 text-slate-300" />
+                    <span>GitHub Repository</span>
+                    <ExternalLink className="w-3 h-3 ml-1 opacity-70" />
+                  </a>
                 )}
 
                 {project.links && project.links.linkedin && (
