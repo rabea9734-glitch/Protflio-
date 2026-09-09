@@ -1,0 +1,8 @@
+{
+  "name": "Data Analyst 3D Portfolio",
+  "description": "Cinematic, interactive 3D portfolio for a professional Data Analyst featuring real-time data visualizations, case studies, skill ecosystems, and analytics lab.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
