@@ -24,7 +24,7 @@ export const ProfilePhotoFrame: React.FC<ProfilePhotoFrameProps> = ({ compact = 
             alt={portfolioProfile.name}
             referrerPolicy="no-referrer"
             draggable={false}
-            className="w-full h-full object-cover object-top select-none pointer-events-none"
+            className="w-full h-full object-cover object-center select-none pointer-events-none"
           />
 
           {/* Protective Subtle Glare Overlay to prevent direct element inspection / ripping */}

@@ -15,10 +15,12 @@ import {
   ArrowRight, 
   ArrowLeft,
   Copy,
-  Check
+  Check,
+  GraduationCap,
+  Building2
 } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
-import { portfolioProfile } from '../data/portfolioData';
+import { portfolioProfile, portfolioEducation } from '../data/portfolioData';
 import { playTelemetryBeep } from '../utils/sound';
 
 interface PersonalProfileSectionProps {
@@ -93,8 +95,9 @@ export const PersonalProfileSection: React.FC<PersonalProfileSectionProps> = ({ 
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="grid grid-cols-1 md:grid-cols-2 gap-6"
+              className="space-y-6"
             >
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Left Column: Direct Identity Coordinates */}
               <div className="rounded-2xl bg-[#080E1B] border border-cyan-500/20 p-6 sm:p-8 space-y-6 shadow-xl">
                 <div className="flex items-center justify-between border-b border-white/[0.08] pb-4">
@@ -128,6 +131,33 @@ export const PersonalProfileSection: React.FC<PersonalProfileSectionProps> = ({ 
                   <div className="flex items-start justify-between p-3 rounded-xl bg-slate-950/60 border border-white/[0.04]">
                     <span className="text-slate-400 font-medium">{t.profile.fieldLabel}</span>
                     <span className="text-slate-200">{t.profile.fieldVal}</span>
+                  </div>
+
+                  {/* Academic Degree */}
+                  <div className="flex items-start justify-between p-3 rounded-xl bg-slate-950/60 border border-cyan-500/10">
+                    <span className="text-slate-400 font-medium flex items-center gap-1.5">
+                      <GraduationCap className="w-3.5 h-3.5 text-cyan-400" />
+                      <span>{t.profile.educationLabel}</span>
+                    </span>
+                    <span className="text-cyan-300 font-semibold text-right rtl:text-left">{t.profile.educationVal}</span>
+                  </div>
+
+                  {/* University & Faculty */}
+                  <div className="flex items-start justify-between p-3 rounded-xl bg-slate-950/60 border border-cyan-500/10">
+                    <span className="text-slate-400 font-medium flex items-center gap-1.5">
+                      <Building2 className="w-3.5 h-3.5 text-cyan-400" />
+                      <span>{t.profile.universityLabel}</span>
+                    </span>
+                    <span className="text-slate-200 text-right rtl:text-left">{t.profile.universityVal}</span>
+                  </div>
+
+                  {/* Cumulative Grade & GPA */}
+                  <div className="flex items-start justify-between p-3 rounded-xl bg-emerald-950/20 border border-emerald-500/20">
+                    <span className="text-slate-400 font-medium flex items-center gap-1.5">
+                      <Award className="w-3.5 h-3.5 text-emerald-400" />
+                      <span>{t.profile.gradeLabel}</span>
+                    </span>
+                    <span className="text-emerald-400 font-bold font-mono">{t.profile.gradeVal}</span>
                   </div>
 
                   {/* Location */}
@@ -222,6 +252,130 @@ export const PersonalProfileSection: React.FC<PersonalProfileSectionProps> = ({ 
                   </button>
                 </div>
               </div>
+              </div>
+
+              {/* Full-width University & Academic Qualification Spotlight */}
+              {portfolioEducation.length > 0 && (
+                <div className="rounded-2xl bg-[#080E1B] border border-cyan-500/30 overflow-hidden shadow-2xl space-y-0">
+                  {/* Campus Header Banner */}
+                  <div className="relative w-full h-40 sm:h-52 overflow-hidden bg-slate-950">
+                    <img
+                      src={portfolioEducation[0].campusImageUrl}
+                      alt={isArabic ? 'مبنى كلية التجارة - جامعة طنطا' : 'Faculty of Commerce - Tanta University'}
+                      className="w-full h-full object-cover object-center brightness-90 contrast-105"
+                      referrerPolicy="no-referrer"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#080E1B] via-[#080E1B]/60 to-transparent" />
+                    
+                    <div className="absolute top-3.5 left-3.5 rtl:left-auto rtl:right-3.5 flex items-center gap-2">
+                      <span className="px-3 py-1 rounded-full bg-slate-950/80 backdrop-blur-md border border-cyan-400/40 font-mono text-xs text-cyan-300 font-semibold flex items-center gap-1.5 shadow-lg">
+                        <Building2 className="w-3.5 h-3.5 text-cyan-400" />
+                        <span>{isArabic ? 'كلية التجارة • جامعة طنطا' : 'Faculty of Commerce • Tanta University'}</span>
+                      </span>
+                    </div>
+
+                    <div className="absolute top-3.5 right-3.5 rtl:right-auto rtl:left-3.5">
+                      <span className="px-3 py-1 rounded-full bg-emerald-950/80 backdrop-blur-md border border-emerald-400/40 font-mono text-xs text-emerald-300 font-bold shadow-lg">
+                        2021 – 2025
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* University Card Body */}
+                  <div className="p-6 sm:p-8 space-y-6">
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 border-b border-white/[0.08] pb-6">
+                      {/* Tanta University Logo Crest */}
+                      <div className="w-18 h-18 sm:w-22 sm:h-22 rounded-2xl bg-slate-950 p-2 border-2 border-cyan-400/40 shadow-[0_0_20px_rgba(6,182,212,0.25)] shrink-0 flex items-center justify-center overflow-hidden">
+                        <img
+                          src={portfolioEducation[0].logoUrl}
+                          alt={isArabic ? 'شعار جامعة طنطا' : 'Tanta University Crest'}
+                          className="w-full h-full object-contain rounded-xl"
+                          referrerPolicy="no-referrer"
+                        />
+                      </div>
+
+                      <div className="space-y-1.5 flex-1">
+                        <div className="flex items-center gap-2">
+                          <span className="font-mono text-[11px] text-cyan-400 tracking-wider uppercase font-semibold">
+                            {isArabic ? 'المؤهل الأكاديمي الجامعي' : 'ACADEMIC DEGREE CREDENTIAL'}
+                          </span>
+                          <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
+                          <span className="font-mono text-xs text-slate-400">
+                            {portfolioEducation[0].location}
+                          </span>
+                        </div>
+
+                        <h4 className="font-display text-xl sm:text-2xl font-bold text-white tracking-wide">
+                          {isArabic ? portfolioEducation[0].degreeAr : portfolioEducation[0].degree}
+                        </h4>
+
+                        <p className="text-sm font-sans text-slate-300">
+                          {isArabic 
+                            ? `${portfolioEducation[0].facultyAr} • ${portfolioEducation[0].institutionAr}`
+                            : `${portfolioEducation[0].faculty} • ${portfolioEducation[0].institution}`}
+                        </p>
+                      </div>
+
+                      <button
+                        onClick={() => {
+                          onNavigateTab('experience');
+                          playTelemetryBeep(850, 0.03);
+                        }}
+                        className="px-4 py-2.5 rounded-xl bg-cyan-950/80 border border-cyan-500/30 hover:border-cyan-400 text-cyan-300 hover:text-white font-mono text-xs font-semibold flex items-center gap-2 transition-all shrink-0 self-start sm:self-center"
+                      >
+                        <GraduationCap className="w-4 h-4 text-cyan-400" />
+                        <span>{isArabic ? 'استعراض السجل والمقررات' : 'Explore Coursework'}</span>
+                        <ArrowIcon className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+
+                    {/* Standing & GPA badges */}
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                      <div className="p-3.5 rounded-xl bg-slate-950/70 border border-emerald-500/20 flex items-center gap-3">
+                        <div className="w-9 h-9 rounded-lg bg-emerald-950/80 border border-emerald-500/30 flex items-center justify-center text-emerald-400 shrink-0">
+                          <Award className="w-4 h-4" />
+                        </div>
+                        <div>
+                          <span className="font-mono text-[10px] text-slate-400 block uppercase">
+                            {isArabic ? 'التقدير العام' : 'CUMULATIVE GRADE'}
+                          </span>
+                          <span className="font-display text-base font-bold text-emerald-400">
+                            {isArabic ? portfolioEducation[0].gradeAr : portfolioEducation[0].grade}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="p-3.5 rounded-xl bg-slate-950/70 border border-amber-500/20 flex items-center gap-3">
+                        <div className="w-9 h-9 rounded-lg bg-amber-950/80 border border-amber-500/30 flex items-center justify-center text-amber-400 shrink-0">
+                          <Sparkles className="w-4 h-4" />
+                        </div>
+                        <div>
+                          <span className="font-mono text-[10px] text-slate-400 block uppercase">
+                            {isArabic ? 'المعدل التراكمي (GPA)' : 'GRADE POINT AVERAGE'}
+                          </span>
+                          <span className="font-mono text-base font-bold text-amber-300">
+                            {portfolioEducation[0].gpa}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="p-3.5 rounded-xl bg-slate-950/70 border border-cyan-500/20 flex items-center gap-3">
+                        <div className="w-9 h-9 rounded-lg bg-cyan-950/80 border border-cyan-500/30 flex items-center justify-center text-cyan-400 shrink-0">
+                          <GraduationCap className="w-4 h-4" />
+                        </div>
+                        <div>
+                          <span className="font-mono text-[10px] text-slate-400 block uppercase">
+                            {isArabic ? 'التخصص الدقيق' : 'SPECIALIZATION'}
+                          </span>
+                          <span className="font-mono text-xs font-semibold text-white">
+                            Business Info Systems (BIS)
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
             </motion.div>
           )}
 

@@ -20,8 +20,10 @@ import {
 import { portfolioProfile, portfolioEducation, portfolioCertifications } from '../data/portfolioData';
 import { playTelemetryBeep } from '../utils/sound';
 import { useProfilePhoto } from '../context/PhotoContext';
+import { useLanguage } from '../context/LanguageContext';
 
 export const AboutSection: React.FC = () => {
+  const { isArabic } = useLanguage();
   const { photoUrl } = useProfilePhoto();
   const [activeTab, setActiveTab] = useState<'about' | 'journey' | 'approach' | 'education' | 'interests'>('about');
 
@@ -332,18 +334,49 @@ export const AboutSection: React.FC = () => {
                   </div>
 
                   {portfolioEducation.map((edu) => (
-                    <div key={edu.id} className="p-5 rounded-2xl bg-[#080d17] border border-white/10 space-y-2">
-                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
-                        <h4 className="font-display font-bold text-white text-base sm:text-lg">
-                          {edu.degree}
-                        </h4>
-                        <span className="font-mono text-xs text-cyan-400 bg-cyan-950/60 border border-cyan-500/30 px-2.5 py-0.5 rounded self-start">
-                          {edu.period}
+                    <div key={edu.id} className="p-5 sm:p-6 rounded-2xl bg-[#080d17] border border-cyan-500/20 space-y-4">
+                      <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+                        {edu.logoUrl && (
+                          <div className="w-14 h-14 rounded-xl bg-slate-950 p-1.5 border border-cyan-500/30 shrink-0 flex items-center justify-center overflow-hidden shadow-md">
+                            <img
+                              src={edu.logoUrl}
+                              alt={isArabic ? edu.institutionAr : edu.institution}
+                              className="w-full h-full object-contain rounded-lg"
+                              referrerPolicy="no-referrer"
+                            />
+                          </div>
+                        )}
+                        <div className="flex-1">
+                          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                            <h4 className="font-display font-bold text-white text-base sm:text-lg">
+                              {isArabic ? (edu.degreeAr || edu.degree) : edu.degree}
+                            </h4>
+                            <span className="font-mono text-xs text-cyan-400 bg-cyan-950/60 border border-cyan-500/30 px-2.5 py-0.5 rounded self-start">
+                              {edu.period}
+                            </span>
+                          </div>
+                          <p className="font-mono text-xs text-slate-300 mt-1">
+                            {isArabic 
+                              ? `${edu.facultyAr} • ${edu.institutionAr}`
+                              : `${edu.faculty} • ${edu.institution}`}
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Grades & GPA Badges */}
+                      <div className="flex flex-wrap items-center gap-2 pt-1 border-t border-white/5">
+                        <span className="px-2.5 py-1 rounded-lg bg-emerald-950/60 border border-emerald-500/30 font-mono text-xs text-emerald-400 font-semibold flex items-center gap-1.5">
+                          <Award className="w-3.5 h-3.5" />
+                          <span>{isArabic ? `التقدير: ${edu.gradeAr || edu.grade}` : `Grade: ${edu.grade}`}</span>
+                        </span>
+                        <span className="px-2.5 py-1 rounded-lg bg-amber-950/60 border border-amber-500/30 font-mono text-xs text-amber-300 font-bold flex items-center gap-1.5">
+                          <span>GPA: {edu.gpa}</span>
+                        </span>
+                        <span className="px-2.5 py-1 rounded-lg bg-slate-900 border border-white/10 font-mono text-xs text-slate-300">
+                          {edu.location}
                         </span>
                       </div>
-                      <p className="font-mono text-xs text-slate-300">
-                        {edu.major} • <span className="text-slate-400">{edu.institution}</span>
-                      </p>
+
                       {edu.relevantStudies && (
                         <div className="pt-2 flex flex-wrap gap-1.5">
                           {edu.relevantStudies.map((s, i) => (

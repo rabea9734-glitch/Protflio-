@@ -76,9 +76,19 @@ export interface EducationItem {
   degree: string;
   major: string;
   institution: string;
+  faculty?: string;
   period: string;
   location?: string;
+  grade?: string;
+  gpa?: string;
+  logoUrl?: string;
+  campusImageUrl?: string;
   relevantStudies?: string[];
+  achievements?: string[];
+  degreeAr?: string;
+  facultyAr?: string;
+  institutionAr?: string;
+  gradeAr?: string;
   isPlaceholder?: boolean;
 }
 

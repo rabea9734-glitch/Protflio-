@@ -14,7 +14,9 @@ import {
   Database, 
   BarChart3, 
   TrendingUp,
-  ExternalLink 
+  ExternalLink,
+  Building2,
+  Sparkles
 } from 'lucide-react';
 import { 
   portfolioExperiences, 
@@ -235,37 +237,157 @@ export const ExperienceSection: React.FC = () => {
               portfolioEducation.map((edu) => (
                 <div
                   key={edu.id}
-                  className="p-6 sm:p-8 rounded-2xl bg-[#080d17] border border-white/10 space-y-5 text-left rtl:text-right shadow-xl"
+                  className="rounded-2xl bg-[#080d17] border border-cyan-500/20 overflow-hidden shadow-2xl space-y-0 text-left rtl:text-right"
                 >
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/5 pb-4">
-                    <div>
-                      <span className="font-mono text-xs text-cyan-400 tracking-wider uppercase font-semibold">
-                        {edu.period}
-                      </span>
-                      <h3 className="font-display text-xl sm:text-2xl font-bold text-white mt-1">
-                        {edu.degree}
-                      </h3>
-                      <p className="text-sm font-mono text-slate-300 mt-0.5">
-                        {edu.institution} {edu.location && `• ${edu.location}`}
-                      </p>
-                    </div>
-                  </div>
+                  {/* University Campus Banner */}
+                  {edu.campusImageUrl && (
+                    <div className="relative w-full h-44 sm:h-56 overflow-hidden bg-slate-950">
+                      <img
+                        src={edu.campusImageUrl}
+                        alt={isArabic ? `${edu.institutionAr} - ${edu.facultyAr}` : `${edu.institution} - ${edu.faculty}`}
+                        className="w-full h-full object-cover object-center brightness-90 contrast-105"
+                        referrerPolicy="no-referrer"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#080d17] via-[#080d17]/50 to-transparent" />
+                      
+                      {/* Top Badges over Campus Photo */}
+                      <div className="absolute top-4 left-4 rtl:left-auto rtl:right-4 flex flex-wrap items-center gap-2">
+                        <span className="px-3 py-1 rounded-full bg-slate-950/80 backdrop-blur-md border border-cyan-400/40 font-mono text-xs text-cyan-300 font-semibold shadow-lg flex items-center gap-1.5">
+                          <Building2 className="w-3.5 h-3.5 text-cyan-400" />
+                          <span>{isArabic ? `${edu.facultyAr}، ${edu.institutionAr}` : `${edu.faculty}, ${edu.institution}`}</span>
+                        </span>
+                        <span className="px-3 py-1 rounded-full bg-emerald-950/80 backdrop-blur-md border border-emerald-400/40 font-mono text-xs text-emerald-300 font-bold shadow-lg flex items-center gap-1.5">
+                          <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
+                          <span>{isArabic ? 'جامعة حكومية معتمدة' : 'Accredited State University'}</span>
+                        </span>
+                      </div>
 
-                  <div className="space-y-2">
-                    <span className="font-mono text-xs text-slate-400 uppercase tracking-wider block">
-                      {isArabic ? 'المقررات والدراسات الأكاديمية ذات الصلة:' : 'RELEVANT ACADEMIC STUDIES:'}
-                    </span>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                      {edu.relevantStudies.map((study, i) => (
-                        <div
-                          key={i}
-                          className="p-2.5 rounded-lg bg-slate-950/60 border border-white/5 text-xs font-sans text-slate-300 flex items-center gap-2"
-                        >
-                          <CheckCircle2 className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
-                          <span>{study}</span>
-                        </div>
-                      ))}
+                      {/* Period Badge */}
+                      <div className="absolute top-4 right-4 rtl:right-auto rtl:left-4">
+                        <span className="px-3 py-1 rounded-full bg-slate-950/90 backdrop-blur-md border border-white/20 font-mono text-xs text-white font-bold">
+                          {edu.period}
+                        </span>
+                      </div>
                     </div>
+                  )}
+
+                  {/* Content Container */}
+                  <div className="p-6 sm:p-8 space-y-6">
+                    {/* Header with University Logo and Degree */}
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 border-b border-white/10 pb-6">
+                      {/* University Logo Crest */}
+                      {edu.logoUrl && (
+                        <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-slate-950 p-2 border-2 border-cyan-400/40 shadow-[0_0_25px_rgba(6,182,212,0.25)] shrink-0 flex items-center justify-center overflow-hidden">
+                          <img
+                            src={edu.logoUrl}
+                            alt={isArabic ? edu.institutionAr : edu.institution}
+                            className="w-full h-full object-contain rounded-xl"
+                            referrerPolicy="no-referrer"
+                          />
+                        </div>
+                      )}
+
+                      <div className="space-y-1.5 flex-1">
+                        <div className="flex flex-wrap items-center gap-2">
+                          <span className="font-mono text-xs text-cyan-400 tracking-wider uppercase font-semibold">
+                            {isArabic ? 'الدرجة الجامعية المعتمدة' : 'ACCREDITED UNIVERSITY DEGREE'}
+                          </span>
+                          <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
+                          <span className="font-mono text-xs text-slate-400">
+                            {edu.location}
+                          </span>
+                        </div>
+
+                        <h3 className="font-display text-xl sm:text-2xl lg:text-3xl font-bold text-white tracking-wide">
+                          {isArabic ? edu.degreeAr || edu.degree : edu.degree}
+                        </h3>
+
+                        <p className="text-sm sm:text-base font-sans text-slate-300 font-medium">
+                          {isArabic 
+                            ? `${edu.facultyAr} • ${edu.institutionAr}`
+                            : `${edu.faculty} • ${edu.institution}`}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Academic Standing & GPA Highlight Box */}
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 p-4 rounded-xl bg-slate-950/70 border border-cyan-500/20">
+                      <div className="space-y-1 p-2">
+                        <span className="font-mono text-[11px] text-slate-400 uppercase tracking-wider block">
+                          {isArabic ? 'التقدير العام (Grade)' : 'Cumulative Grade'}
+                        </span>
+                        <div className="flex items-center gap-2">
+                          <Award className="w-4 h-4 text-emerald-400 shrink-0" />
+                          <span className="font-display text-base sm:text-lg font-bold text-emerald-400">
+                            {isArabic ? (edu.gradeAr || edu.grade) : edu.grade}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="space-y-1 p-2 border-t sm:border-t-0 sm:border-l sm:border-r border-white/10 sm:px-4 rtl:sm:border-l-0 rtl:sm:border-r-0 rtl:sm:border-x">
+                        <span className="font-mono text-[11px] text-slate-400 uppercase tracking-wider block">
+                          {isArabic ? 'المعدل التراكمي (GPA)' : 'Grade Point Average'}
+                        </span>
+                        <div className="flex items-center gap-2">
+                          <Sparkles className="w-4 h-4 text-amber-400 shrink-0" />
+                          <span className="font-mono text-base sm:text-lg font-bold text-amber-300">
+                            {edu.gpa}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="space-y-1 p-2">
+                        <span className="font-mono text-[11px] text-slate-400 uppercase tracking-wider block">
+                          {isArabic ? 'فترة الدراسة (Period)' : 'Academic Period'}
+                        </span>
+                        <div className="flex items-center gap-2">
+                          <Calendar className="w-4 h-4 text-cyan-400 shrink-0" />
+                          <span className="font-mono text-sm sm:text-base font-bold text-white">
+                            {edu.period}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Key Honors & Achievements */}
+                    {edu.achievements && edu.achievements.length > 0 && (
+                      <div className="space-y-2.5">
+                        <span className="font-mono text-xs text-slate-400 uppercase tracking-wider block">
+                          {isArabic ? 'أبرز الإنجازات والمحطات الأكاديمية:' : 'ACADEMIC DISTINCTIONS & HIGHLIGHTS:'}
+                        </span>
+                        <div className="space-y-2">
+                          {edu.achievements.map((ach, idx) => (
+                            <div
+                              key={idx}
+                              className="p-3 rounded-xl bg-slate-950/50 border border-white/5 text-xs sm:text-sm font-sans text-slate-300 flex items-start gap-2.5"
+                            >
+                              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+                              <span>{ach}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Relevant Studies */}
+                    {edu.relevantStudies && edu.relevantStudies.length > 0 && (
+                      <div className="space-y-2.5">
+                        <span className="font-mono text-xs text-slate-400 uppercase tracking-wider block">
+                          {isArabic ? 'المقررات والدراسات الأكاديمية التخصصية:' : 'RELEVANT ACADEMIC STUDIES:'}
+                        </span>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                          {edu.relevantStudies.map((study, i) => (
+                            <div
+                              key={i}
+                              className="p-2.5 rounded-lg bg-slate-950/60 border border-white/5 text-xs font-sans text-slate-300 flex items-center gap-2"
+                            >
+                              <CheckCircle2 className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+                              <span>{study}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               ))

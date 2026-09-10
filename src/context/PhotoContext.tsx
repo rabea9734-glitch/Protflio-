@@ -16,52 +16,21 @@ const PhotoContext = createContext<PhotoContextType>({
 });
 
 export const PhotoProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [photoUrl, setPhotoUrl] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const defaultPhoto = portfolioProfile.profilePhoto.url || '/images/farahat_profile.jpg';
+  const [photoUrl, setPhotoUrl] = useState<string | null>(defaultPhoto);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    // 1. Check localStorage first
+    // 1. Check localStorage if user manually uploaded one in this browser session
     const saved = localStorage.getItem('farahat_custom_photo');
     if (saved) {
       setPhotoUrl(saved);
-      setIsLoading(false);
       return;
     }
 
-    // 2. Test candidate paths for the profile photo
-    const candidatePaths = [
-      portfolioProfile.profilePhoto.url,
-      '/farahat.jpg',
-      '/farahat.png',
-      '/images/farahat_profile.jpg',
-      '/images/farahat_profile.png',
-      '/image.png',
-    ].filter(Boolean);
-
-    const testImage = (path: string): Promise<boolean> => {
-      return new Promise((resolve) => {
-        const img = new Image();
-        img.onload = () => resolve(true);
-        img.onerror = () => resolve(false);
-        img.src = path + '?t=' + Date.now();
-      });
-    };
-
-    const findWorkingPhoto = async () => {
-      for (const p of candidatePaths) {
-        if (await testImage(p)) {
-          setPhotoUrl(p);
-          setIsLoading(false);
-          return;
-        }
-      }
-      // If none found, keep default or null
-      setPhotoUrl(portfolioProfile.profilePhoto.url || null);
-      setIsLoading(false);
-    };
-
-    findWorkingPhoto();
-  }, []);
+    // 2. Fallback to permanent static profile photo
+    setPhotoUrl(defaultPhoto);
+  }, [defaultPhoto]);
 
   const setPhotoFile = async (file: File) => {
     return new Promise<void>((resolve, reject) => {

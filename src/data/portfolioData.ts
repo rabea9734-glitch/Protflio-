@@ -886,7 +886,40 @@ export const portfolioExperiences: ExperienceItem[] = [
 // ==========================================
 // 5. EDUCATION (Formal Records - Ready for Official Verification)
 // ==========================================
-export const portfolioEducation: EducationItem[] = [];
+export const portfolioEducation: EducationItem[] = [
+  {
+    id: "edu-tanta-bis",
+    degree: "Bachelor's Degree in Business Information Systems (BIS)",
+    degreeAr: "بكالوريوس في نظم معلومات الأعمال (BIS)",
+    major: "Business Information Systems (BIS)",
+    faculty: "Faculty of Commerce",
+    facultyAr: "كلية التجارة",
+    institution: "Tanta University",
+    institutionAr: "جامعة طنطا",
+    period: "2021 – 2025",
+    location: "Tanta, Egypt",
+    grade: "Excellent",
+    gradeAr: "ممتاز مع مرتبة الشرف",
+    gpa: "3.88 / 4.00",
+    logoUrl: "/images/tanta_university_logo.jpg",
+    campusImageUrl: "/images/tanta_university_campus.jpg",
+    relevantStudies: [
+      "Business Intelligence & Data Warehousing",
+      "Database Management Systems & SQL",
+      "Statistical Analysis & Predictive Modeling",
+      "Enterprise Resource Planning (ERP)",
+      "Systems Analysis, Modeling & Design",
+      "Decision Support Systems (DSS)",
+      "Managerial & Financial Accounting",
+      "Operations Research & Quantitative Methods"
+    ],
+    achievements: [
+      "Graduated with Top Honors (Grade: Excellent - GPA: 3.88 / 4.00)",
+      "Specialized in Business Intelligence, Enterprise Database Architecture & Advanced Analytics",
+      "Developed high-impact practical graduation and analytics capstone projects connecting commercial metrics with IT systems"
+    ]
+  }
+];
 
 // ==========================================
 // 6. CERTIFICATIONS (Professional Credentials - Ready for Official Verification)
