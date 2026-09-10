@@ -28,14 +28,16 @@ export const PhotoProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       return;
     }
 
-    // 2. Check portfolioData config
-    if (portfolioProfile.profilePhoto.url) {
-      setPhotoUrl(portfolioProfile.profilePhoto.url);
-      setIsLoading(false);
-      return;
-    }
+    // 2. Test candidate paths for the profile photo
+    const candidatePaths = [
+      portfolioProfile.profilePhoto.url,
+      '/farahat.jpg',
+      '/farahat.png',
+      '/images/farahat_profile.jpg',
+      '/images/farahat_profile.png',
+      '/image.png',
+    ].filter(Boolean);
 
-    // 3. Test if /image.png or /farahat.jpg exists in public
     const testImage = (path: string): Promise<boolean> => {
       return new Promise((resolve) => {
         const img = new Image();
@@ -45,16 +47,20 @@ export const PhotoProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       });
     };
 
-    const checkDefaultFiles = async () => {
-      if (await testImage('/farahat.jpg')) {
-        setPhotoUrl('/farahat.jpg');
-      } else if (await testImage('/images/farahat_profile.jpg')) {
-        setPhotoUrl('/images/farahat_profile.jpg');
+    const findWorkingPhoto = async () => {
+      for (const p of candidatePaths) {
+        if (await testImage(p)) {
+          setPhotoUrl(p);
+          setIsLoading(false);
+          return;
+        }
       }
+      // If none found, keep default or null
+      setPhotoUrl(portfolioProfile.profilePhoto.url || null);
       setIsLoading(false);
     };
 
-    checkDefaultFiles();
+    findWorkingPhoto();
   }, []);
 
   const setPhotoFile = async (file: File) => {

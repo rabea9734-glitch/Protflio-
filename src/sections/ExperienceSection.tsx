@@ -231,43 +231,59 @@ export const ExperienceSection: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             className="space-y-6"
           >
-            {portfolioEducation.map((edu) => (
-              <div
-                key={edu.id}
-                className="p-6 sm:p-8 rounded-2xl bg-[#080d17] border border-white/10 space-y-5 text-left rtl:text-right shadow-xl"
-              >
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/5 pb-4">
-                  <div>
-                    <span className="font-mono text-xs text-cyan-400 tracking-wider uppercase font-semibold">
-                      {edu.period}
-                    </span>
-                    <h3 className="font-display text-xl sm:text-2xl font-bold text-white mt-1">
-                      {edu.degree}
-                    </h3>
-                    <p className="text-sm font-mono text-slate-300 mt-0.5">
-                      {edu.institution} {edu.location && `• ${edu.location}`}
-                    </p>
+            {portfolioEducation.length > 0 ? (
+              portfolioEducation.map((edu) => (
+                <div
+                  key={edu.id}
+                  className="p-6 sm:p-8 rounded-2xl bg-[#080d17] border border-white/10 space-y-5 text-left rtl:text-right shadow-xl"
+                >
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/5 pb-4">
+                    <div>
+                      <span className="font-mono text-xs text-cyan-400 tracking-wider uppercase font-semibold">
+                        {edu.period}
+                      </span>
+                      <h3 className="font-display text-xl sm:text-2xl font-bold text-white mt-1">
+                        {edu.degree}
+                      </h3>
+                      <p className="text-sm font-mono text-slate-300 mt-0.5">
+                        {edu.institution} {edu.location && `• ${edu.location}`}
+                      </p>
+                    </div>
                   </div>
-                </div>
 
-                <div className="space-y-2">
-                  <span className="font-mono text-xs text-slate-400 uppercase tracking-wider block">
-                    {isArabic ? 'المقررات والدراسات الأكاديمية ذات الصلة:' : 'RELEVANT ACADEMIC STUDIES:'}
-                  </span>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                    {edu.relevantStudies.map((study, i) => (
-                      <div
-                        key={i}
-                        className="p-2.5 rounded-lg bg-slate-950/60 border border-white/5 text-xs font-sans text-slate-300 flex items-center gap-2"
-                      >
-                        <CheckCircle2 className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
-                        <span>{study}</span>
-                      </div>
-                    ))}
+                  <div className="space-y-2">
+                    <span className="font-mono text-xs text-slate-400 uppercase tracking-wider block">
+                      {isArabic ? 'المقررات والدراسات الأكاديمية ذات الصلة:' : 'RELEVANT ACADEMIC STUDIES:'}
+                    </span>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      {edu.relevantStudies.map((study, i) => (
+                        <div
+                          key={i}
+                          className="p-2.5 rounded-lg bg-slate-950/60 border border-white/5 text-xs font-sans text-slate-300 flex items-center gap-2"
+                        >
+                          <CheckCircle2 className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+                          <span>{study}</span>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
+              ))
+            ) : (
+              <div className="p-10 rounded-2xl bg-[#080d17] border border-white/10 text-center space-y-3 shadow-xl">
+                <div className="w-12 h-12 rounded-xl bg-cyan-950/60 border border-cyan-500/30 flex items-center justify-center text-cyan-400 mx-auto">
+                  <GraduationCap className="w-6 h-6" />
+                </div>
+                <h3 className="font-display text-lg font-bold text-white">
+                  {isArabic ? 'المؤهلات الأكاديمية' : 'Academic Credentials'}
+                </h3>
+                <p className="font-sans text-xs sm:text-sm text-slate-400 max-w-md mx-auto leading-relaxed">
+                  {isArabic
+                    ? 'بيانات المؤهلات الأكاديمية والدرجات الجامعية قيد التوثيق والتحديث وفق السجلات الرسمية.'
+                    : 'Academic credentials and university qualifications are undergoing verification and updating.'}
+                </p>
               </div>
-            ))}
+            )}
           </motion.div>
         )}
 
@@ -276,33 +292,51 @@ export const ExperienceSection: React.FC = () => {
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="grid grid-cols-1 sm:grid-cols-2 gap-6"
+            className="space-y-6"
           >
-            {portfolioCertifications.map((cert) => (
-              <div
-                key={cert.id}
-                className="p-6 rounded-2xl bg-[#080d17] border border-white/10 hover:border-cyan-500/30 transition-colors space-y-4 text-left rtl:text-right shadow-xl flex flex-col justify-between"
-              >
-                <div className="space-y-3">
-                  <div className="w-10 h-10 rounded-xl bg-cyan-950/80 border border-cyan-500/30 flex items-center justify-center text-cyan-400">
-                    <Award className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <h4 className="font-display text-base font-bold text-white">
-                      {cert.name}
-                    </h4>
-                    <span className="font-mono text-xs text-slate-400 block mt-0.5">
-                      {cert.issuingOrganization}
-                    </span>
-                  </div>
-                </div>
+            {portfolioCertifications.length > 0 ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                {portfolioCertifications.map((cert) => (
+                  <div
+                    key={cert.id}
+                    className="p-6 rounded-2xl bg-[#080d17] border border-white/10 hover:border-cyan-500/30 transition-colors space-y-4 text-left rtl:text-right shadow-xl flex flex-col justify-between"
+                  >
+                    <div className="space-y-3">
+                      <div className="w-10 h-10 rounded-xl bg-cyan-950/80 border border-cyan-500/30 flex items-center justify-center text-cyan-400">
+                        <Award className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <h4 className="font-display text-base font-bold text-white">
+                          {cert.name}
+                        </h4>
+                        <span className="font-mono text-xs text-slate-400 block mt-0.5">
+                          {cert.issuingOrganization}
+                        </span>
+                      </div>
+                    </div>
 
-                <div className="pt-3 border-t border-white/5 flex items-center justify-between font-mono text-xs text-slate-400">
-                  <span>{cert.issueDate}</span>
-                  <span className="text-cyan-400 font-semibold">{t.experience.verifyCred}</span>
-                </div>
+                    <div className="pt-3 border-t border-white/5 flex items-center justify-between font-mono text-xs text-slate-400">
+                      <span>{cert.issueDate}</span>
+                      <span className="text-cyan-400 font-semibold">{t.experience.verifyCred}</span>
+                    </div>
+                  </div>
+                ))}
               </div>
-            ))}
+            ) : (
+              <div className="p-10 rounded-2xl bg-[#080d17] border border-white/10 text-center space-y-3 shadow-xl">
+                <div className="w-12 h-12 rounded-xl bg-cyan-950/60 border border-cyan-500/30 flex items-center justify-center text-cyan-400 mx-auto">
+                  <Award className="w-6 h-6" />
+                </div>
+                <h3 className="font-display text-lg font-bold text-white">
+                  {isArabic ? 'الشهادات والاعتمادات المهنية' : 'Professional Certifications'}
+                </h3>
+                <p className="font-sans text-xs sm:text-sm text-slate-400 max-w-md mx-auto leading-relaxed">
+                  {isArabic
+                    ? 'الشهادات المهنية في تحليل البيانات وذكاء الأعمال قيد الإدراج مع روابط التحقق الرسمية.'
+                    : 'Professional data analysis and business intelligence certificates are being integrated with verified credential IDs.'}
+                </p>
+              </div>
+            )}
           </motion.div>
         )}
 

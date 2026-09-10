@@ -11,7 +11,6 @@ import {
   ExternalLink,
   Upload,
   AlertCircle,
-  Download,
   Github,
   Maximize2,
   X
@@ -33,58 +32,27 @@ export const ProjectsSection: React.FC = () => {
   const [previewModalImg, setPreviewModalImg] = useState<{ src: string; title: string } | null>(null);
 
   const powerBIProjects = portfolioProjects.filter(
-    (p) => p.subsection === 'Power BI Analytics Projects' || p.tools.some((t) => t.toLowerCase().includes('power bi'))
+    (p) => p.subsection === 'Power BI Analytics Projects' || p.number.startsWith('BI-')
   );
   const excelProjects = portfolioProjects.filter(
-    (p) => p.subsection === 'Excel Analytics Projects'
+    (p) => p.subsection === 'Excel Analytics Projects' || p.number.startsWith('EX-')
   );
 
   const categories = [
-    { id: 'all', label: isArabic ? 'جميع المشاريع' : 'ALL PROJECTS', count: portfolioProjects.length },
-    { id: 'powerbi', label: isArabic ? 'مشاريع Power BI (06)' : 'POWER BI (06)', count: powerBIProjects.length },
-    { id: 'excel', label: isArabic ? 'مشاريع Excel (04)' : 'EXCEL (04)', count: excelProjects.length },
-    { id: 'revenue', label: isArabic ? 'الإيرادات والاحتفاظ' : 'REVENUE & RETENTION' },
-    { id: 'operations', label: isArabic ? 'سلاسل الإمداد والعمليات' : 'SUPPLY CHAIN & OPS' },
-    { id: 'commercial', label: isArabic ? 'التجارة والنمو' : 'COMMERCIAL & GROWTH' },
+    { id: 'all', label: isArabic ? `جميع المشاريع (${portfolioProjects.length})` : `ALL PROJECTS (${portfolioProjects.length})`, count: portfolioProjects.length },
+    { id: 'powerbi', label: isArabic ? `مشاريع Power BI (${powerBIProjects.length})` : `POWER BI (${powerBIProjects.length})`, count: powerBIProjects.length },
+    { id: 'excel', label: isArabic ? `مشاريع Excel (${excelProjects.length})` : `EXCEL (${excelProjects.length})`, count: excelProjects.length },
   ];
 
   const filteredProjects = portfolioProjects.filter((p) => {
-    if (activeCategory === 'excel') return p.subsection === 'Excel Analytics Projects';
-    if (activeCategory === 'powerbi') return p.subsection === 'Power BI Analytics Projects' || p.tools.some(t => t.toLowerCase().includes('power bi'));
-    if (activeCategory === 'revenue') return p.category.toLowerCase().includes('revenue');
-    if (activeCategory === 'operations') return p.category.toLowerCase().includes('supply');
-    if (activeCategory === 'commercial') return p.category.toLowerCase().includes('commercial');
+    if (activeCategory === 'excel') return p.subsection === 'Excel Analytics Projects' || p.number.startsWith('EX-');
+    if (activeCategory === 'powerbi') return p.subsection === 'Power BI Analytics Projects' || p.number.startsWith('BI-');
     return true;
   });
 
   const handleOpenProject = (project: Project) => {
     setSelectedProject(project);
     playTelemetryBeep(1100, 0.05);
-  };
-
-  const handleDownloadImage = async (e: React.MouseEvent, imageSrc: string, projectId: string) => {
-    e.stopPropagation();
-    try {
-      const response = await fetch(imageSrc);
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      const extension = imageSrc.split('.').pop()?.split('?')[0] || 'png';
-      a.download = `${projectId}-dashboard.${extension}`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      window.URL.revokeObjectURL(url);
-    } catch {
-      const a = document.createElement('a');
-      a.href = imageSrc;
-      a.download = `${projectId}-dashboard.png`;
-      a.target = '_blank';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-    }
   };
 
   const ArrowIcon = isArabic ? ArrowLeft : ArrowRight;
@@ -267,7 +235,9 @@ export const ProjectsSection: React.FC = () => {
                       <img
                         src={projectImg}
                         alt={project.title}
-                        className="w-full h-full object-cover object-top group-hover/inner:scale-105 transition-transform duration-500"
+                        draggable={false}
+                        onContextMenu={(e) => e.preventDefault()}
+                        className="w-full h-full object-cover object-top group-hover/inner:scale-105 transition-transform duration-500 select-none pointer-events-none"
                         referrerPolicy="no-referrer"
                         onError={(e) => {
                           (e.target as HTMLImageElement).style.display = 'none';
@@ -277,7 +247,7 @@ export const ProjectsSection: React.FC = () => {
                       <div className="absolute top-2 left-2 rtl:left-auto rtl:right-2 w-3 h-3 border-t-2 border-l-2 rtl:border-l-0 rtl:border-r-2 border-emerald-400 pointer-events-none opacity-80" />
                       <div className="absolute bottom-2 right-2 rtl:right-auto rtl:left-2 w-3 h-3 border-b-2 border-r-2 rtl:border-r-0 rtl:border-l-2 border-blue-400 pointer-events-none opacity-80" />
 
-                      {/* Action Buttons: Expand and Download */}
+                      {/* Action Buttons: Expand */}
                       <div className="absolute top-2.5 right-2.5 rtl:right-auto rtl:left-2.5 z-10 flex items-center gap-1.5">
                         <button
                           type="button"
@@ -289,14 +259,6 @@ export const ProjectsSection: React.FC = () => {
                           title={isArabic ? 'تكبير وعرض الصورة بالحجم الكامل' : 'Expand Full Resolution'}
                         >
                           <Maximize2 className="w-3.5 h-3.5" />
-                        </button>
-                        <button
-                          type="button"
-                          onClick={(e) => handleDownloadImage(e, projectImg, project.id)}
-                          className="p-1.5 rounded-lg bg-slate-950/90 hover:bg-emerald-950 border border-emerald-500/40 hover:border-emerald-400 text-emerald-300 hover:text-white transition-all opacity-90 hover:opacity-100 shadow-md backdrop-blur-sm cursor-pointer"
-                          title={isArabic ? 'تحميل صورة الداشبورد' : 'Download Dashboard Image'}
-                        >
-                          <Download className="w-3.5 h-3.5" />
                         </button>
                       </div>
 
@@ -352,7 +314,9 @@ export const ProjectsSection: React.FC = () => {
                       <img
                         src={projectImg}
                         alt={project.title}
-                        className="w-full h-full object-cover object-top group-hover/inner:scale-105 transition-transform duration-500"
+                        draggable={false}
+                        onContextMenu={(e) => e.preventDefault()}
+                        className="w-full h-full object-cover object-top group-hover/inner:scale-105 transition-transform duration-500 select-none pointer-events-none"
                         referrerPolicy="no-referrer"
                         onError={(e) => {
                           (e.target as HTMLImageElement).style.display = 'none';
@@ -362,7 +326,7 @@ export const ProjectsSection: React.FC = () => {
                       <div className="absolute top-2 left-2 rtl:left-auto rtl:right-2 w-3 h-3 border-t-2 border-l-2 rtl:border-l-0 rtl:border-r-2 border-cyan-400 pointer-events-none opacity-80" />
                       <div className="absolute bottom-2 right-2 rtl:right-auto rtl:left-2 w-3 h-3 border-b-2 border-r-2 rtl:border-r-0 rtl:border-l-2 border-blue-400 pointer-events-none opacity-80" />
 
-                      {/* Action Buttons: Expand and Download */}
+                      {/* Action Buttons: Expand */}
                       <div className="absolute top-2.5 right-2.5 rtl:right-auto rtl:left-2.5 z-10 flex items-center gap-1.5">
                         <button
                           type="button"
@@ -374,14 +338,6 @@ export const ProjectsSection: React.FC = () => {
                           title={isArabic ? 'تكبير وعرض الصورة بالحجم الكامل' : 'Expand Full Resolution'}
                         >
                           <Maximize2 className="w-3.5 h-3.5" />
-                        </button>
-                        <button
-                          type="button"
-                          onClick={(e) => handleDownloadImage(e, projectImg, project.id)}
-                          className="p-1.5 rounded-lg bg-slate-950/90 hover:bg-cyan-950 border border-cyan-500/40 hover:border-cyan-400 text-cyan-300 hover:text-white transition-all opacity-90 hover:opacity-100 shadow-md backdrop-blur-sm cursor-pointer"
-                          title={isArabic ? 'تحميل صورة الداشبورد' : 'Download Dashboard Image'}
-                        >
-                          <Download className="w-3.5 h-3.5" />
                         </button>
                       </div>
 
@@ -437,7 +393,9 @@ export const ProjectsSection: React.FC = () => {
                       <img
                         src={projectImg}
                         alt={project.title}
-                        className="w-full h-full object-cover object-top group-hover/inner:scale-105 transition-transform duration-500"
+                        draggable={false}
+                        onContextMenu={(e) => e.preventDefault()}
+                        className="w-full h-full object-cover object-top group-hover/inner:scale-105 transition-transform duration-500 select-none pointer-events-none"
                         referrerPolicy="no-referrer"
                         onError={(e) => {
                           (e.target as HTMLImageElement).style.display = 'none';
@@ -447,7 +405,7 @@ export const ProjectsSection: React.FC = () => {
                       <div className="absolute top-2 left-2 rtl:left-auto rtl:right-2 w-3 h-3 border-t-2 border-l-2 rtl:border-l-0 rtl:border-r-2 border-emerald-400 pointer-events-none opacity-80" />
                       <div className="absolute bottom-2 right-2 rtl:right-auto rtl:left-2 w-3 h-3 border-b-2 border-r-2 rtl:border-r-0 rtl:border-l-2 border-amber-400 pointer-events-none opacity-80" />
 
-                      {/* Action Buttons: Expand and Download */}
+                      {/* Action Buttons: Expand */}
                       <div className="absolute top-2.5 right-2.5 rtl:right-auto rtl:left-2.5 z-10 flex items-center gap-1.5">
                         <button
                           type="button"
@@ -459,14 +417,6 @@ export const ProjectsSection: React.FC = () => {
                           title={isArabic ? 'تكبير وعرض الصورة بالحجم الكامل' : 'Expand Full Resolution'}
                         >
                           <Maximize2 className="w-3.5 h-3.5" />
-                        </button>
-                        <button
-                          type="button"
-                          onClick={(e) => handleDownloadImage(e, projectImg, project.id)}
-                          className="p-1.5 rounded-lg bg-slate-950/90 hover:bg-emerald-950 border border-emerald-500/40 hover:border-emerald-400 text-emerald-300 hover:text-white transition-all opacity-90 hover:opacity-100 shadow-md backdrop-blur-sm cursor-pointer"
-                          title={isArabic ? 'تحميل صورة الداشبورد' : 'Download Dashboard Image'}
-                        >
-                          <Download className="w-3.5 h-3.5" />
                         </button>
                       </div>
 
@@ -522,7 +472,9 @@ export const ProjectsSection: React.FC = () => {
                       <img
                         src={projectImg}
                         alt={project.title}
-                        className="w-full h-full object-cover object-top group-hover/inner:scale-105 transition-transform duration-500"
+                        draggable={false}
+                        onContextMenu={(e) => e.preventDefault()}
+                        className="w-full h-full object-cover object-top group-hover/inner:scale-105 transition-transform duration-500 select-none pointer-events-none"
                         referrerPolicy="no-referrer"
                         onError={(e) => {
                           (e.target as HTMLImageElement).style.display = 'none';
@@ -532,7 +484,7 @@ export const ProjectsSection: React.FC = () => {
                       <div className="absolute top-2 left-2 rtl:left-auto rtl:right-2 w-3 h-3 border-t-2 border-l-2 rtl:border-l-0 rtl:border-r-2 border-purple-400 pointer-events-none opacity-80" />
                       <div className="absolute bottom-2 right-2 rtl:right-auto rtl:left-2 w-3 h-3 border-b-2 border-r-2 rtl:border-r-0 rtl:border-l-2 border-pink-400 pointer-events-none opacity-80" />
 
-                      {/* Action Buttons: Expand and Download */}
+                      {/* Action Buttons: Expand */}
                       <div className="absolute top-2.5 right-2.5 rtl:right-auto rtl:left-2.5 z-10 flex items-center gap-1.5">
                         <button
                           type="button"
@@ -544,14 +496,6 @@ export const ProjectsSection: React.FC = () => {
                           title={isArabic ? 'تكبير وعرض الصورة بالحجم الكامل' : 'Expand Full Resolution'}
                         >
                           <Maximize2 className="w-3.5 h-3.5" />
-                        </button>
-                        <button
-                          type="button"
-                          onClick={(e) => handleDownloadImage(e, projectImg, project.id)}
-                          className="p-1.5 rounded-lg bg-slate-950/90 hover:bg-purple-950 border border-purple-500/40 hover:border-purple-400 text-purple-300 hover:text-white transition-all opacity-90 hover:opacity-100 shadow-md backdrop-blur-sm cursor-pointer"
-                          title={isArabic ? 'تحميل صورة الداشبورد' : 'Download Dashboard Image'}
-                        >
-                          <Download className="w-3.5 h-3.5" />
                         </button>
                       </div>
 
@@ -607,7 +551,9 @@ export const ProjectsSection: React.FC = () => {
                       <img
                         src={projectImg}
                         alt={project.title}
-                        className="w-full h-full object-cover object-top group-hover/inner:scale-105 transition-transform duration-500"
+                        draggable={false}
+                        onContextMenu={(e) => e.preventDefault()}
+                        className="w-full h-full object-cover object-top group-hover/inner:scale-105 transition-transform duration-500 select-none pointer-events-none"
                         referrerPolicy="no-referrer"
                         onError={(e) => {
                           (e.target as HTMLImageElement).style.display = 'none';
@@ -617,7 +563,7 @@ export const ProjectsSection: React.FC = () => {
                       <div className="absolute top-2 left-2 rtl:left-auto rtl:right-2 w-3 h-3 border-t-2 border-l-2 rtl:border-l-0 rtl:border-r-2 border-white pointer-events-none opacity-80" />
                       <div className="absolute bottom-2 right-2 rtl:right-auto rtl:left-2 w-3 h-3 border-b-2 border-r-2 rtl:border-r-0 rtl:border-l-2 border-cyan-400 pointer-events-none opacity-80" />
 
-                      {/* Action Buttons: Expand and Download */}
+                      {/* Action Buttons: Expand */}
                       <div className="absolute top-2.5 right-2.5 rtl:right-auto rtl:left-2.5 z-10 flex items-center gap-1.5">
                         <button
                           type="button"
@@ -629,14 +575,6 @@ export const ProjectsSection: React.FC = () => {
                           title={isArabic ? 'تكبير وعرض الصورة بالحجم الكامل' : 'Expand Full Resolution'}
                         >
                           <Maximize2 className="w-3.5 h-3.5" />
-                        </button>
-                        <button
-                          type="button"
-                          onClick={(e) => handleDownloadImage(e, projectImg, project.id)}
-                          className="p-1.5 rounded-lg bg-black/90 hover:bg-slate-900 border border-white/40 hover:border-cyan-400 text-slate-200 hover:text-white transition-all opacity-90 hover:opacity-100 shadow-md backdrop-blur-sm cursor-pointer"
-                          title={isArabic ? 'تحميل صورة الداشبورد' : 'Download Dashboard Image'}
-                        >
-                          <Download className="w-3.5 h-3.5" />
                         </button>
                       </div>
 
@@ -692,7 +630,9 @@ export const ProjectsSection: React.FC = () => {
                       <img
                         src={projectImg}
                         alt={project.title}
-                        className="w-full h-full object-cover object-top group-hover/inner:scale-105 transition-transform duration-500"
+                        draggable={false}
+                        onContextMenu={(e) => e.preventDefault()}
+                        className="w-full h-full object-cover object-top group-hover/inner:scale-105 transition-transform duration-500 select-none pointer-events-none"
                         referrerPolicy="no-referrer"
                         onError={(e) => {
                           (e.target as HTMLImageElement).style.display = 'none';
@@ -702,7 +642,7 @@ export const ProjectsSection: React.FC = () => {
                       <div className="absolute top-2 left-2 rtl:left-auto rtl:right-2 w-3 h-3 border-t-2 border-l-2 rtl:border-l-0 rtl:border-r-2 border-cyan-400 pointer-events-none opacity-80" />
                       <div className="absolute bottom-2 right-2 rtl:right-auto rtl:left-2 w-3 h-3 border-b-2 border-r-2 rtl:border-r-0 rtl:border-l-2 border-orange-400 pointer-events-none opacity-80" />
 
-                      {/* Action Buttons: Expand and Download */}
+                      {/* Action Buttons: Expand */}
                       <div className="absolute top-2.5 right-2.5 rtl:right-auto rtl:left-2.5 z-10 flex items-center gap-1.5">
                         <button
                           type="button"
@@ -714,14 +654,6 @@ export const ProjectsSection: React.FC = () => {
                           title={isArabic ? 'تكبير وعرض الصورة بالحجم الكامل' : 'Expand Full Resolution'}
                         >
                           <Maximize2 className="w-3.5 h-3.5" />
-                        </button>
-                        <button
-                          type="button"
-                          onClick={(e) => handleDownloadImage(e, projectImg, project.id)}
-                          className="p-1.5 rounded-lg bg-slate-950/90 hover:bg-sky-950 border border-sky-500/40 hover:border-cyan-400 text-sky-300 hover:text-white transition-all opacity-90 hover:opacity-100 shadow-md backdrop-blur-sm cursor-pointer"
-                          title={isArabic ? 'تحميل صورة الداشبورد' : 'Download Dashboard Image'}
-                        >
-                          <Download className="w-3.5 h-3.5" />
                         </button>
                       </div>
 
@@ -754,21 +686,14 @@ export const ProjectsSection: React.FC = () => {
                     <img
                       src={projectImg}
                       alt={project.title}
-                      className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                      draggable={false}
+                      onContextMenu={(e) => e.preventDefault()}
+                      className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500 select-none pointer-events-none"
                       referrerPolicy="no-referrer"
                       onError={(e) => {
                         (e.target as HTMLImageElement).style.display = 'none';
                       }}
                     />
-                    {/* Download Image Button */}
-                    <button
-                      type="button"
-                      onClick={(e) => handleDownloadImage(e, projectImg, project.id)}
-                      className="absolute top-2.5 right-2.5 rtl:right-auto rtl:left-2.5 z-10 p-1.5 rounded-lg bg-slate-950/85 hover:bg-amber-950 border border-white/20 hover:border-amber-400 text-slate-300 hover:text-amber-300 transition-all opacity-85 hover:opacity-100 shadow-md backdrop-blur-sm cursor-pointer"
-                      title={isArabic ? 'تحميل صورة الداشبورد' : 'Download Dashboard Image'}
-                    >
-                      <Download className="w-3.5 h-3.5" />
-                    </button>
                   </>
                 ) : (
                   <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-center">
@@ -1086,13 +1011,6 @@ export const ProjectsSection: React.FC = () => {
               </div>
             </div>
           )}
-
-          {/* 3. CATEGORY SPECIFIC SHOWCASE (revenue, operations, commercial) */}
-          {activeCategory !== 'all' && activeCategory !== 'powerbi' && activeCategory !== 'excel' && (
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              {filteredProjects.map((project) => renderProjectCard(project))}
-            </div>
-          )}
         </div>
 
         {/* Big Bottom Action: VIEW ALL PROJECTS */}
@@ -1147,13 +1065,6 @@ export const ProjectsSection: React.FC = () => {
               </div>
               <div className="flex items-center space-x-2 rtl:space-x-reverse">
                 <button
-                  onClick={(e) => handleDownloadImage(e, previewModalImg.src, 'powerbi-01')}
-                  className="px-3 py-1 rounded-lg bg-emerald-950/80 hover:bg-emerald-900 border border-emerald-500/40 text-emerald-300 text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
-                >
-                  <Download className="w-3.5 h-3.5" />
-                  <span className="hidden sm:inline">{isArabic ? 'تحميل الصورة' : 'Download'}</span>
-                </button>
-                <button
                   onClick={() => setPreviewModalImg(null)}
                   className="p-1.5 rounded-lg bg-white/10 hover:bg-rose-950/80 text-slate-300 hover:text-white transition-colors cursor-pointer"
                   title="Close"
@@ -1168,7 +1079,9 @@ export const ProjectsSection: React.FC = () => {
               <img 
                 src={previewModalImg.src} 
                 alt={previewModalImg.title} 
-                className="max-h-[78vh] w-auto object-contain rounded-xl border border-white/10 shadow-2xl"
+                draggable={false}
+                onContextMenu={(e) => e.preventDefault()}
+                className="max-h-[78vh] w-auto object-contain rounded-xl border border-white/10 shadow-2xl select-none pointer-events-none"
                 referrerPolicy="no-referrer"
               />
             </div>

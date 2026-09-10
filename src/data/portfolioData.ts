@@ -854,161 +854,22 @@ export const portfolioProjects: Project[] = [
         { metric: "Backlog Resolution Time", before: "Weeks of Manual Follow-ups", after: "Instant Daily Pending Pipeline Audit" }
       ]
     }
-  },
-  {
-    id: "project-1",
-    number: "02",
-    title: "Subscription Revenue Intelligence & Churn Radar",
-    tagline: "Unifying multi-source subscription records into predictive retention intelligence.",
-    category: "Revenue & Subscription Analytics",
-    businessProblem: "A recurring subscription platform experienced unexplained quarterly contraction in Net Retention. Management lacked visibility into early warning signals before customers cancelled their accounts.",
-    dataSource: "Transaction billing logs, product activity telemetry, and customer support ticket records.",
-    tools: ["SQL", "Power BI", "Python", "Excel"],
-    keyInsights: [
-      "Identified that usage activity drops during the first 60 days were the primary indicator for 70%+ of cancellations.",
-      "Uncovered billing friction where a significant portion of churn was involuntary card payment failure rather than active cancellation.",
-      "Isolated high-retention feature adoption milestones that correlate with 2.5x higher annual customer lifetime value."
-    ],
-    businessImpact: "Provided actionable early warning indicators enabling customer success teams to proactively retain accounts and stabilize monthly recurring revenue.",
-    kpis: [
-      { label: "Primary Objective", value: "Retention" },
-      { label: "Analysis Scope", value: "Multi-Year Data" },
-      { label: "Report Latency", value: "Automated Daily" }
-    ],
-    accentColor: "from-cyan-500 to-blue-600",
-    imagePlaceholder: "PROJECT 1 PREVIEW // CHURN RADAR DASHBOARD",
-    detailedCaseStudy: {
-      overview: "An end-to-end analytical study evaluating customer lifecycle milestones, payment failure patterns, and engagement triggers to mitigate subscriber churn.",
-      problem: "Leadership faced customer contraction despite steady new acquisitions. High-level summaries concealed behavioral warning signs, leaving teams reactive rather than preventive.",
-      data: "Integrated transactional billing histories, user activity timestamps, and support records, reconciling varying date formats and normalizing multi-currency payments.",
-      analysisProcess: "Conducted cohort retention analysis, analyzed inactivity hazard curves, and evaluated correlation between onboarding milestone completion and long-term contract renewal.",
-      toolsUsed: ["SQL (Window Functions & CTEs)", "Power BI (Dynamic DAX Modeling)", "Python (Data Shaping & Exploratory Analysis)", "Excel (Financial Scenarios)"],
-      dataVisualization: "Engineered an executive Power BI Command Dashboard featuring dynamic cohort heatmaps, automated anomaly flags, and interactive account health drillthroughs.",
-      keyInsights: [
-        "A decline in weekly session frequency during weeks 4 to 8 was an 80%+ accurate leading indicator of non-renewal.",
-        "Customers adopting two or more core product workflows showed 3x longer subscription duration.",
-        "Involuntary payment declines accounted for nearly one-fifth of gross churn and were recoverable via automated notifications."
-      ],
-      results: [
-        "Delivered a single source of truth dashboard used in weekly executive operations reviews.",
-        "Equipped customer success managers with prioritized early-intervention lists for at-risk accounts.",
-        "Reduced manual reporting overhead from multiple hours weekly to automated dashboard refreshes."
-      ],
-      lessonsLearned: [
-        "Data hygiene at the point of ingestion is paramount: inconsistent event logging can severely distort early cohort signals.",
-        "Executive dashboards must prioritize clarity over visual density to drive prompt decision-making."
-      ],
-      metricsBeforeAfter: [
-        { metric: "Early Warning Lead Time", before: "0 Days (Reactive)", after: "30+ Days Prior" },
-        { metric: "Reporting Frequency", before: "Weekly Manual Pulls", after: "Automated Real-Time" }
-      ]
-    }
-  },
-  {
-    id: "project-2",
-    number: "02",
-    title: "Omnichannel Retail Inventory & Distribution Optimization",
-    tagline: "Streamlining inventory velocity and warehouse fulfillment through supply chain analysis.",
-    category: "Supply Chain & Retail Operations",
-    businessProblem: "A retail distribution network faced frequent stockouts in urban demand centers alongside excess stagnant inventory in regional fulfillment hubs, creating holding waste and delayed orders.",
-    dataSource: "Warehouse inventory balance records, point-of-sale receipt histories, and shipping transit logs.",
-    tools: ["SQL", "Tableau", "Python", "Excel"],
-    keyInsights: [
-      "Detected inconsistent SKU velocity thresholds that caused safety stocks to be misallocated between fast-moving and slow-moving items.",
-      "Calculated dynamic replenishment buffers based on realistic supplier lead-time variances.",
-      "Identified that transit delays in key categories directly correlated with customer cancellation spikes."
-    ],
-    businessImpact: "Streamlined inventory allocation, minimized stockouts during peak shopping periods, and eliminated manual spreadsheet reconciliation.",
-    kpis: [
-      { label: "Primary Focus", value: "Fulfillment" },
-      { label: "Data Granularity", value: "SKU Level" },
-      { label: "Visibility", value: "Multi-Hub Live" }
-    ],
-    accentColor: "from-emerald-500 to-teal-600",
-    imagePlaceholder: "PROJECT 2 PREVIEW // SUPPLY CHAIN DASHBOARD",
-    detailedCaseStudy: {
-      overview: "Comprehensive operational analysis connecting warehouse inventory snapshots with point-of-sale velocity to balance fulfillment and decrease holding costs.",
-      problem: "Fragmented inventory tracking across disparate systems led to reactive reorders, delayed fulfillment, and expensive inventory markdown write-offs.",
-      data: "Unified daily SKU balance tables, warehouse inbound shipments, and point-of-sale transaction logs over an extended retail cycle.",
-      analysisProcess: "Evaluated inventory days-on-hand metrics, calculated SKU velocity percentiles, and analyzed transit delay distributions across regional distribution hubs.",
-      toolsUsed: ["SQL (Relational Aggregations & Joins)", "Tableau (Geospatial & Inventory Velocity Dashboards)", "Python (Data Cleansing & Outlier Detection)", "Excel (Reorder Formulas)"],
-      dataVisualization: "Built an interactive Tableau Command Center with fulfillment heatmaps, SKU velocity scatter plots, and drillable warehouse balance trackers.",
-      keyInsights: [
-        "20% of catalog SKUs represented over 75% of order volume, requiring prioritized dynamic replenishment thresholds.",
-        "Regional weather patterns and seasonal peaks caused predictable demand spikes that were previously unaccounted for in standard orders.",
-        "Consolidating purchase schedules reduced shipping surcharges while stabilizing warehouse intake capacity."
-      ],
-      results: [
-        "Established clear minimum and maximum safety stock thresholds for primary product lines.",
-        "Automated fulfillment monitoring dashboards for operations teams, reducing stockout incidents.",
-        "Replaced disconnected spreadsheet reporting with unified visual telemetry."
-      ],
-      lessonsLearned: [
-        "Operational stakeholders require straightforward, actionable filters rather than overly complex mathematical outputs.",
-        "Data validation routines must account for warehouse inventory adjustments to maintain audit consistency."
-      ]
-    }
-  },
-  {
-    id: "project-3",
-    number: "03",
-    title: "Commercial Performance & Customer Acquisition Matrix",
-    tagline: "Evaluating acquisition channels, conversion funnels, and marketing capital allocation.",
-    category: "Commercial Analytics & Growth",
-    businessProblem: "Marketing and business development teams were investing heavily across various digital acquisition channels without clear visibility into customer quality, conversion velocity, or lifetime return.",
-    dataSource: "Digital campaign expenditure records, web analytics event logs, and customer CRM transaction tables.",
-    tools: ["SQL", "Power BI", "Python", "Statistics"],
-    keyInsights: [
-      "Direct organic and referral traffic generated 2.8x higher lifetime value than discounted paid search campaigns.",
-      "Identified critical drop-off stages in the acquisition funnel where form complexity deterred prospective high-value accounts.",
-      "Pinpointed the exact payback period across different customer acquisition channels."
-    ],
-    businessImpact: "Enabled leadership to reallocate growth budget toward highest-margin channels and optimize conversion funnel milestones.",
-    kpis: [
-      { label: "Core Domain", value: "Customer Acquisition" },
-      { label: "Funnel Stages", value: "End-to-End" },
-      { label: "Dashboard", value: "Executive Board" }
-    ],
-    accentColor: "from-amber-500 to-rose-600",
-    imagePlaceholder: "PROJECT 3 PREVIEW // COMMERCIAL MATRIX",
-    detailedCaseStudy: {
-      overview: "A strategic commercial growth study evaluating customer acquisition channels, onboarding conversion bottlenecks, and customer lifetime value.",
-      problem: "Customer acquisition budgets were spent without multi-touch attribution or visibility into post-conversion retention by source, risking capital misallocation.",
-      data: "Consolidated digital acquisition expenses, website event interactions, and longitudinal transaction records from the company CRM.",
-      analysisProcess: "Built multi-stage funnel models, analyzed customer lifetime value curves by acquisition cohort, and assessed marketing efficiency ratios.",
-      toolsUsed: ["SQL (Cohort & Multi-Touch Queries)", "Power BI (Executive Acquisition Cockpit)", "Python (Statistical Exploration & Visualizations)", "Excel (Financial Models)"],
-      dataVisualization: "Crafted a comprehensive Power BI Executive Cockpit tracking customer acquisition costs, channel payback curves, and funnel milestone conversion rates.",
-      keyInsights: [
-        "High-intent referral channels had an 80% shorter sales cycle compared to broad digital advertising campaigns.",
-        "Streamlining mandatory form fields on initial sign-up improved onboarding completion by a significant margin.",
-        "Acquisition cohorts onboarded during product promotion cycles exhibited different retention characteristics needing tailored lifecycle engagement."
-      ],
-      results: [
-        "Equipped leadership with transparent channel ROI metrics for quarterly budget allocation.",
-        "Delivered automated funnel telemetry dashboards tracking drop-offs across each milestone.",
-        "Standardized customer acquisition KPIs across marketing, product, and finance teams."
-      ],
-      lessonsLearned: [
-        "Cross-departmental alignment on metric definitions (such as 'active user' and 'conversion') is essential before building dashboards.",
-        "Attribution models should be kept transparent and interpretable to earn stakeholder trust."
-      ]
-    }
   }
 ];
 
 // ==========================================
-// 4. EXPERIENCE (Professional Timeline — Ready for Farahat's real employment records)
+// 4. EXPERIENCE (Professional Practice Timeline)
 // ==========================================
 export const portfolioExperiences: ExperienceItem[] = [
   {
     id: "exp-1",
-    period: "PRESENT",
-    position: "Data Analyst",
-    company: "Professional Analytics & Data Practice",
-    location: "Available for Remote & On-Site Roles",
-    type: "Professional Role",
+    period: "2024 - PRESENT",
+    position: "Data Analyst & Business Intelligence Specialist",
+    company: "Freelance & Independent Analytics Practice",
+    location: "Remote",
+    type: "Professional Practice",
     responsibilities: [
-      "Analyzing multi-source business datasets, writing complex SQL queries, and designing interactive Power BI and Tableau dashboards.",
+      "Analyzing multi-source business datasets, writing complex SQL queries, and designing interactive Power BI and Excel dashboards.",
       "Performing exploratory data analysis, identifying trends and anomalies, and presenting strategic recommendations to stakeholders.",
       "Translating raw business questions into structured analytical models, dashboards, and automated telemetry workflows.",
       "Auditing data hygiene, verifying pipeline integrity, and documenting data dictionaries for reporting accuracy."
@@ -1018,76 +879,19 @@ export const portfolioExperiences: ExperienceItem[] = [
       "Standardized analytical workflows and SQL models to accelerate query turnaround time.",
       "Delivered strategic decision support across commercial, operations, and retention metrics."
     ],
-    toolsUsed: ["SQL", "Power BI", "Python", "Excel", "Tableau", "Data Modeling"],
-    isPlaceholder: true
-  },
-  {
-    id: "exp-2",
-    period: "PREVIOUS EXPERIENCE",
-    position: "[PREVIOUS ROLE / PROJECT WILL BE ADDED HERE]",
-    company: "[Company or Organization Name]",
-    location: "[Location / Remote]",
-    type: "[Full-Time / Contract]",
-    responsibilities: [
-      "[Key responsibility 1: Data extraction, SQL transformation, and reporting]",
-      "[Key responsibility 2: Developing business intelligence dashboards and KPI trackers]",
-      "[Key responsibility 3: Collaborating with cross-functional teams to resolve data questions]"
-    ],
-    achievements: [
-      "[Key achievement or outcome delivered during this role]",
-      "[Process improvement, automation, or business impact delivered]"
-    ],
-    toolsUsed: ["SQL", "Excel", "Power BI", "Data Cleaning"],
-    isPlaceholder: true
+    toolsUsed: ["SQL", "Power BI", "Python", "Excel", "DAX", "Data Modeling"]
   }
 ];
 
 // ==========================================
-// 5. EDUCATION (Structured clean placeholder for Farahat's real degrees)
+// 5. EDUCATION (Formal Records - Ready for Official Verification)
 // ==========================================
-export const portfolioEducation: EducationItem[] = [
-  {
-    id: "edu-1",
-    degree: "[DEGREE WILL BE ADDED HERE]",
-    major: "[Field of Study / Major]",
-    institution: "[University or Academic Institution]",
-    period: "[Years of Study]",
-    location: "[Location]",
-    relevantStudies: [
-      "Data Analysis & Statistical Methods",
-      "Database Systems & Query Optimization",
-      "Computer Science & Information Technology",
-      "Quantitative Research & Problem Solving"
-    ],
-    isPlaceholder: true
-  }
-];
+export const portfolioEducation: EducationItem[] = [];
 
 // ==========================================
-// 6. CERTIFICATIONS (Structured clean placeholder for Farahat's real credentials)
+// 6. CERTIFICATIONS (Professional Credentials - Ready for Official Verification)
 // ==========================================
-export const portfolioCertifications: CertificationItem[] = [
-  {
-    id: "cert-1",
-    name: "[PROFESSIONAL CERTIFICATION WILL BE ADDED HERE]",
-    issuingOrganization: "[Issuing Authority, e.g. Microsoft / Google / IBM]",
-    issueDate: "[Issue Date]",
-    credentialId: "[Credential ID / Verification]",
-    verificationUrl: "#",
-    badgePlaceholder: "CERTIFICATION BADGE",
-    isPlaceholder: true
-  },
-  {
-    id: "cert-2",
-    name: "[ANALYTICS / BI CERTIFICATE WILL BE ADDED HERE]",
-    issuingOrganization: "[Issuing Authority]",
-    issueDate: "[Issue Date]",
-    credentialId: "[Credential ID / Verification]",
-    verificationUrl: "#",
-    badgePlaceholder: "CERTIFICATION BADGE",
-    isPlaceholder: true
-  }
-];
+export const portfolioCertifications: CertificationItem[] = [];
 
 // ==========================================
 // 7. DATA PROCESS PIPELINE (The 7 Stages: Raw Data -> Clean -> Explore -> Analyze -> Visualize -> Insight -> Decision)

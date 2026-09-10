@@ -20,7 +20,6 @@ import {
   Target,
   Filter,
   Layers,
-  Download,
   Github
 } from 'lucide-react';
 import { Project } from '../types/portfolio';
@@ -46,31 +45,6 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({ project, onClose
 
   const { detailedCaseStudy } = project;
   const isExcelProject = project.subsection === 'Excel Analytics Projects';
-
-  const handleDownloadImage = async () => {
-    if (!project.image) return;
-    try {
-      const response = await fetch(project.image);
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      const extension = project.image.split('.').pop()?.split('?')[0] || 'png';
-      a.download = `${project.id}-dashboard.${extension}`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      window.URL.revokeObjectURL(url);
-    } catch {
-      const a = document.createElement('a');
-      a.href = project.image;
-      a.download = `${project.id}-dashboard.png`;
-      a.target = '_blank';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-    }
-  };
 
   return (
     <AnimatePresence>
@@ -410,17 +384,6 @@ export const CaseStudyModal: React.FC<CaseStudyModalProps> = ({ project, onClose
 
               {/* Action Links Buttons if present */}
               <div className="flex flex-wrap items-center gap-3 pt-1">
-                {project.image && (
-                  <button
-                    onClick={handleDownloadImage}
-                    className="inline-flex items-center space-x-2 rtl:space-x-reverse px-4 py-2 rounded-xl bg-cyan-950/70 border border-cyan-500/40 text-cyan-300 hover:text-white hover:bg-cyan-900/60 font-mono text-xs font-semibold transition-all shadow-sm cursor-pointer"
-                    title="Download Dashboard Image"
-                  >
-                    <Download className="w-4 h-4 text-cyan-400" />
-                    <span>Download Image</span>
-                  </button>
-                )}
-
                 {project.links && project.links.github && (
                   <a
                     href={project.links.github}
